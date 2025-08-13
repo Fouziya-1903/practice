@@ -1,21 +1,47 @@
-const para = "loremkkldsjodijpojpdoskop jznjndsnv jvjdls";
+const text = "If one day the moon calls you by your name don't be surprised, because every night I tell her about you.";
 
-let timeStart;
-let timeEnd;
-let fullpara;
+document.getElementById("para").textContent = text;
 
-const paraEl = document.getElementById("para");
+const input1 = document.getElementById('input1');
+const btn = document.getElementById('btn');
+const timeDisplay = document.getElementById("timer");
+const result = document.getElementById('result');
 
-const inputEl = document.getElementById("input1");
+let timeLeft, timer;
+const totalTime = 5; // seconds
 
-const startbtn = document.getElementById("btn");
+btn.addEventListener("click", function () {
+    input1.value = "";
+    input1.disabled = false;
+    timeLeft = totalTime;
+    timeDisplay.textContent = `Time Left ${timeLeft} sec`;
+    btn.disabled = true;
+    result.textContent = "";
+    clearInterval(timer);
 
-const resultEl = document.getElementById("result");
+    timer = setInterval(() => {
+        timeLeft--;
 
-startbtn.addEventListener("click",timeStart);
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            input1.disabled = true;
+            btn.disabled = false;
 
-function startTest(){
-    paraEl.textContent = fullpara;
-    inputEl.value ="";
-    
-}
+            // ✅ Check the input after time ends
+            if (input1.value.trim() === "") {
+                result.textContent = "⚠️ You didn't type anything.";
+            } else if (text.startsWith(input1.value)) {
+                let words = input1.value.trim().split(/\s+/).length;
+                let wpm = (words / totalTime) * 60;
+                result.textContent = `✅ Match! Your Speed is ${wpm.toFixed(2)} words per minute.`;
+            } else {
+                result.textContent = "❌ The text doesn't match from the beginning.";
+            }
+
+            timeDisplay.textContent = "Time left 0 sec";
+
+        } else {
+            timeDisplay.textContent = `Go on!!... you have ${timeLeft} sec only`;
+        }
+    }, 1000);
+});
