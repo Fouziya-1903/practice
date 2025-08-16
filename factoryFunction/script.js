@@ -103,3 +103,5 @@ const p1 = new createElement('p','Faisu loves Fouzi','red');
 const p2 = new createElement('p','Faisu loves Fouzi','red');
 
 p.setColor('blue');
+
+
